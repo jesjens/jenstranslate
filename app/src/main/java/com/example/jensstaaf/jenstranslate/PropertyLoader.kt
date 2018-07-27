@@ -6,11 +6,11 @@ import android.util.Log
 import java.io.IOException
 import java.util.*
 
+class PropertyLoader(private val context: Context) {
 
-object PropertyLoader {
-    private const val TAG = "PropertyLoader"
+    private val TAG = "PropertyLoader"
 
-    fun getConfigValue(context: Context, name: String): String? {
+    fun getConfigValue(name: String): String? {
         val resources = context.resources
 
         try {

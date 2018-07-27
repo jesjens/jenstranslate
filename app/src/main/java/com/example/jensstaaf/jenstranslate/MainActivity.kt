@@ -9,18 +9,21 @@ import android.content.Intent
 import android.os.Bundle
 import android.speech.RecognizerIntent
 import android.widget.Toast
-import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.ArrayAdapter
 import com.example.jensstaaf.jenstranslate.model.LanguageItem
+import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
+import javax.inject.Inject
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : DaggerAppCompatActivity() {
     private lateinit var translator: Translator
     private lateinit var speaker: Speaker
     private val translatedTextLiveData = MutableLiveData<String>()
     private val isLoading = MutableLiveData<Boolean>()
+
+    @Inject lateinit var propertyLoader: PropertyLoader
 
     private val REQ_CODE_SPEECH_INPUT = 100
 
@@ -55,7 +58,11 @@ class MainActivity : AppCompatActivity() {
             btnSpeak.isEnabled = !isVisible!!
         })
 
-        val apiKey = PropertyLoader.getConfigValue(this, "api_key")!!
+        /*val propertyLoader = DaggerTalkListComponent.builder()
+                .appModule(AppModule(this))
+                .build().propertyLoader*/
+
+        val apiKey = propertyLoader.getConfigValue("api_key")!!
         translator = Translator(apiKey)
 
         btnSpeak.setOnClickListener { promptSpeechInput() }
