@@ -75,4 +75,5 @@ fastlane/screenshots
 fastlane/test_output
 fastlane/readme.md
 
-*.properties
+# Local configuration file (sdk path, etc)
+local.properties
